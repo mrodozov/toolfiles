@@ -1,0 +1,9 @@
+<tool name="intel-vtune" version="@TOOL_VERSION@">
+  <info url="https://software.intel.com/en-us/intel-vtune-amplifier-xe"/>
+  <client>
+    <environment name="INTEL_VTUNE_BASE" default="@TOOL_ROOT@"/>
+    <environment name="BINDIR" default="$INTEL_VTUNE_BASE/bin64"/>
+  </client>
+  <runtime name="PATH" value="$INTEL_VTUNE_BASE/bin64" type="path"/>
+  <runtime name="VTUNE_AMPLIFIER_2018_DIR" value="$INTEL_VTUNE_BASE"/>
+</tool>
