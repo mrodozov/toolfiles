@@ -1,0 +1,6 @@
+<tool name="professor" version="@TOOL_VERSION@">
+<client>
+<environment name="PROFESSOR_BASE" default="@TOOL_ROOT@"/>
+</client>
+<runtime name="PATH" value="$PROFESSOR_BASE/bin" type="path"/>
+</tool>

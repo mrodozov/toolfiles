@@ -1,0 +1,5 @@
+<tool name="pyminuit2" version="@TOOL_VERSION@">
+<client>
+<environment name="PYMINUIT2_BASE" default="@TOOL_ROOT@"/>
+</client>
+</tool>

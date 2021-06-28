@@ -1,0 +1,6 @@
+<tool name="cvs2git" version="@TOOL_VERSION@">
+  <client>
+    <environment name="CVS2GIT_BASE" default="@TOOL_ROOT@"/>
+  </client>
+  <runtime name="PATH" value="$CVS2GIT_BASE/bin" type="path"/>
+</tool>

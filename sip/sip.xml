@@ -1,0 +1,7 @@
+<tool name="sip" version="@TOOL_VERSION@">
+  <info url="http://www.riverbankcomputing.co.uk/software/sip/intro"/>
+  <client>
+    <environment name="SIP_BASE" default="@TOOL_ROOT@"/>
+  </client>
+  <use name="python"/>
+</tool>

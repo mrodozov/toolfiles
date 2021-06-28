@@ -1,0 +1,9 @@
+<tool name="scons" version="@TOOL_VERSION@">
+  <info url="http://prdownloads.sourceforge.net/scons/"/>
+  <client>
+    <environment name="SCONS_BASE" default="@TOOL_ROOT@"/>
+    <environment name="BINDIR" default="$SCONS_BASE/bin"/>
+  </client>
+  <runtime name="SCONS_LIB_DIR" value="$SCONS_BASE/lib"/>
+  <runtime name="PATH" value="$SCONS_BASE/bin" type="path"/>
+</tool>
