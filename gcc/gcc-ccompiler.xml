@@ -1,6 +1,6 @@
   <tool name="gcc-ccompiler" version="9.3.0" type="compiler">
     <client>
-      <environment name="GCC_CCOMPILER_BASE" default="@GCC_ROOT@"/>
+      <environment name="GCC_CCOMPILER_BASE" default="@TOOL_ROOT@"/>
       <environment name="CC" value="$GCC_CCOMPILER_BASE/bin/gcc"/>
     </client>
     <flags CSHAREDOBJECTFLAGS="-fPIC   "/>

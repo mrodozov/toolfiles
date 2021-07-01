@@ -1,6 +1,6 @@
   <tool name="gcc-cxxcompiler" version="@GCC_VERSION@" type="compiler">
     <client>
-      <environment name="GCC_CXXCOMPILER_BASE" default="@GCC_ROOT@"/>
+      <environment name="GCC_CXXCOMPILER_BASE" default="@TOOL_ROOT@"/>
       <environment name="CXX" value="$GCC_CXXCOMPILER_BASE/bin/c++"/>
     </client>
     <flags CPPDEFINES="GNU_GCC _GNU_SOURCE   "/>
