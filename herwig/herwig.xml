@@ -2,7 +2,7 @@
   <lib name="herwig"/>
   <lib name="herwig_dummy"/>
   <client>
-    <environment name="HERWIG_BASE" default="@TOOL_BASE@"/>
+    <environment name="HERWIG_BASE" default="@TOOL_ROOT@"/>
     <environment name="LIBDIR" default="$HERWIG_BASE/lib"/>
     <environment name="INCLUDE" default="$HERWIG_BASE/include"/>
   </client>
