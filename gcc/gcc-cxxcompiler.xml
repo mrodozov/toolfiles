@@ -28,7 +28,7 @@
     <flags LD_UNIT=" -r -z muldefs "/>
     <runtime name="LD_LIBRARY_PATH" value="$GCC_CXXCOMPILER_BASE/lib64" type="path"/>
     <runtime name="LD_LIBRARY_PATH" value="$GCC_CXXCOMPILER_BASE/lib" type="path"/>
-    <runtime name="SCRAM_CXX11_ABI" value="1"/>
+    <runtime name="SCRAM_CXX11_ABI" value="@SCRAM_CXX11_ABI@"/>
     <runtime name="PATH" value="$GCC_CXXCOMPILER_BASE/bin" type="path"/>
     <ifrelease name="_ASAN">
       <runtime name="GCC_RUNTIME_ASAN" value="$GCC_CXXCOMPILER_BASE/lib64/libasan.so" type="path"/>
