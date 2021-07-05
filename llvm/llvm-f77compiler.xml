@@ -1,6 +1,6 @@
-  <tool name="llvm-f77compiler" version="12.0.0-a1b7190a72d62e08263511234ce0d6f4" type="compiler">
+  <tool name="llvm-f77compiler" version="@TOOL_VERSION@" type="compiler">
     <use name="gcc-f77compiler"/>    
     <client>
-      <environment name="FC" default="/build/mrodozov/toolfiles/last_cmsdist/build_toolfiles/slc7_amd64_gcc900/external/gcc/9.3.0/bin/gfortran"/>
+      <environment name="FC" default="@G77_ROOT@/bin/gfortran"/>
     </client>
   </tool>

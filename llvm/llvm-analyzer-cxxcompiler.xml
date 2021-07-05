@@ -1,7 +1,7 @@
-  <tool name="llvm-analyzer-cxxcompiler" version="12.0.0-a1b7190a72d62e08263511234ce0d6f4" type="compiler">
+  <tool name="llvm-analyzer-cxxcompiler" version="@TOOL_VERSION@" type="compiler">
     <use name="llvm-cxxcompiler"/>
     <client>
-      <environment name="LLVM_ANALYZER_CXXCOMPILER_BASE" default="/build/mrodozov/toolfiles/last_cmsdist/build_toolfiles/slc7_amd64_gcc900/external/llvm/12.0.0-a1b7190a72d62e08263511234ce0d6f4"/>
+      <environment name="LLVM_ANALYZER_CXXCOMPILER_BASE" default="@TOOL_ROOT@"/>
       <environment name="CXX" value="$LLVM_ANALYZER_CXXCOMPILER_BASE/bin/c++-analyzer"/>
     </client>
   </tool>
