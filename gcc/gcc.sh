@@ -55,7 +55,7 @@ cat << \EOF_TOOLFILE >${toolfolder}/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-Werror=write-strings -Werror=delete-non-virtual-dtor"/>
     <flags CXXFLAGS="-Werror=strict-aliasing"/>
     <flags CXXFLAGS="-Werror=narrowing"/>
-PKG_VECTORIZATION    <flags CXXFLAGS="-Werror=unused-but-set-variable -Werror=reorder"/>
+    <flags CXXFLAGS="-Werror=unused-but-set-variable -Werror=reorder"/>
     <flags CXXFLAGS="-Werror=unused-variable -Werror=conversion-null"/>
     <flags CXXFLAGS="-Werror=return-local-addr -Wnon-virtual-dtor"/>
     <flags CXXFLAGS="-Werror=switch -fdiagnostics-show-option"/>
@@ -63,9 +63,9 @@ PKG_VECTORIZATION    <flags CXXFLAGS="-Werror=unused-but-set-variable -Werror=re
 EOF_TOOLFILE
 if [ arch == x86_64 ] ; then
 $(
-for v in ${PKG_VECTORIZATION} ; do
-  uv=$(echo $v | tr [a-z-] [A-Z_] | tr '.' '_')
-  echo "    <flags CXXFLAGS_TARGETS_${uv}=\"${v}\"/>" >> ${toolfolder}/gcc-cxxcompiler.xml
+for vv in ${PKG_VECTORIZATION} ; do
+  uvv=$(echo $vv | tr [a-z-] [A-Z_] | tr '.' '_')
+  echo "    <flags CXXFLAGS_TARGETS_${uvv}=\"${vv}\"/>" >> ${toolfolder}/gcc-cxxcompiler.xml
 done
 )
 fi
@@ -80,7 +80,7 @@ cat << \EOF_TOOLFILE >>${toolfolder}/gcc-cxxcompiler.xml
     <ifrelease name="_ASAN">
       <runtime name="GCC_RUNTIME_ASAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libasan.so" type="path"/>
     <elif name="_LSAN"/>
-      <runtime name="GCC_RUNTIME_LSAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libasan.so" typ/build/mrodozov/toolfiles/conf_from_repo/BUILD/slc7_amd64_gcc900/cms/cmssw-tool-conf/46.0-cms9/log e="path"/>
+      <runtime name="GCC_RUNTIME_LSAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libasan.so" type="path"/>
     <elif name="_UBSAN"/>
       <runtime name="GCC_RUNTIME_UBSAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libubsan.so" type="path"/>
     <elif name="_TSAN"/>
