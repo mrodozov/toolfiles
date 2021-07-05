@@ -62,10 +62,11 @@ cat << \EOF_TOOLFILE >${toolfolder}/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
 EOF_TOOLFILE
 if [[ $(arch) == x86_64 ]] ; then
+
 $(
 for vv in ${PKG_VECTORIZATION} ; do
   uvv=$(echo $vv | tr [a-z-] [A-Z_] | tr '.' '_')
-  echo "    <flags CXXFLAGS_TARGETS_${uvv}=\"${vv}\"/>" >> ${toolfolder}/gcc-cxxcompiler.xml
+  dummyequal=$(echo "    <flags CXXFLAGS_TARGETS_${uvv}=\"${vv}\"/>" >> ${toolfolder}/gcc-cxxcompiler.xml)
 done
 )
 fi
