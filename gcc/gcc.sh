@@ -1,7 +1,7 @@
 ### RPM cms gcc-toolfile 16.0
 ## INCLUDE compilation_flags
 # gcc has a separate spec file for the generating a 
-# toolfile because gcc.spec could be not build because of the 
+# toolfile because gcc.spec could be not build because of the
 # "--use-system-compiler" option.
 
 #%{expand:%(i=90; for v in %{package_vectorization}; do let i=$i+1 ; echo Source${i}: vectorization/$v; done)}
@@ -24,7 +24,7 @@ fi
 
 export ARCH_FFLAGS="-cpp"
 SCRAM_CXX11_ABI=1
-$(echo '#include <string>' | g++ -x c++ -E -dM - | grep ' _GLIBCXX_USE_CXX11_ABI  *1' || SCRAM_CXX11_ABI=0)
+dummyequal=$(echo '#include <string>' | g++ -x c++ -E -dM - | grep ' _GLIBCXX_USE_CXX11_ABI  *1' || SCRAM_CXX11_ABI=0)
 export SCRAM_CXX11_ABI
 export COMPILER_VERSION=$(gcc -dumpversion)
 export COMPILER_VERSION_MAJOR=$(echo $COMPILER_VERSION | cut -d'.' -f1)
@@ -36,10 +36,10 @@ export COMPILER_VERSION_MINOR=$(echo $COMPILER_VERSION | cut -d'.' -f2)
 
 cat << \EOF_TOOLFILE >${toolfolder}/gcc-cxxcompiler.xml
   <tool name="gcc-cxxcompiler" version="@GCC_VERSION@" type="compiler">
-    <client>
+<client>
       <environment name="GCC_CXXCOMPILER_BASE" default="@GCC_ROOT@"/>
       <environment name="CXX" value="$GCC_CXXCOMPILER_BASE/bin/c++@COMPILER_NAME_SUFFIX@"/>
-    </client>
+     </client>
     <flags CPPDEFINES="GNU_GCC _GNU_SOURCE @OS_CPPDEFINES@ @ARCH_CPPDEFINES@ @COMPILER_CPPDEFINES@"/>
     <flags CXXSHAREDOBJECTFLAGS="-fPIC @OS_CXXSHAREDOBJECTFLAGS@ @ARCH_CXXSHAREDOBJECTFLAGS@ @COMPILER_CXXSHAREDOBJECTFLAGS@"/>
     <flags CXXFLAGS="-O2 -pthread -pipe -Werror=main -Werror=pointer-arith"/>
@@ -55,18 +55,20 @@ cat << \EOF_TOOLFILE >${toolfolder}/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-Werror=write-strings -Werror=delete-non-virtual-dtor"/>
     <flags CXXFLAGS="-Werror=strict-aliasing"/>
     <flags CXXFLAGS="-Werror=narrowing"/>
-    <flags CXXFLAGS="-Werror=unused-but-set-variable -Werror=reorder"/>
+PKG_VECTORIZATION    <flags CXXFLAGS="-Werror=unused-but-set-variable -Werror=reorder"/>
     <flags CXXFLAGS="-Werror=unused-variable -Werror=conversion-null"/>
     <flags CXXFLAGS="-Werror=return-local-addr -Wnon-virtual-dtor"/>
     <flags CXXFLAGS="-Werror=switch -fdiagnostics-show-option"/>
     <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
 EOF_TOOLFILE
-#%ifarch x86_64
-#for v in %{package_vectorization} ; do
-#  uv=$(echo $v | tr [a-z-] [A-Z_] | tr '.' '_')
-#  echo "    <flags CXXFLAGS_TARGETS_${uv}=\"$(%{cmsdist_directory}/vectorization/cmsdist_packages.py $v)\"/>" >> ${toolfolder}/gcc-cxxcompiler.xml
-#done
-#%endif
+if [ arch == x86_64 ] ; then
+$(
+for v in ${PKG_VECTORIZATION} ; do
+  uv=$(echo $v | tr [a-z-] [A-Z_] | tr '.' '_')
+  echo "    <flags CXXFLAGS_TARGETS_${uv}=\"${v}\"/>" >> ${toolfolder}/gcc-cxxcompiler.xml
+done
+)
+fi
 cat << \EOF_TOOLFILE >>${toolfolder}/gcc-cxxcompiler.xml
     <flags LDFLAGS="@OS_LDFLAGS@ @ARCH_LDFLAGS@ @COMPILER_LDFLAGS@"/>
     <flags CXXSHAREDFLAGS="@OS_SHAREDFLAGS@ @ARCH_SHAREDFLAGS@ @COMPILER_SHAREDFLAGS@"/>
@@ -78,7 +80,7 @@ cat << \EOF_TOOLFILE >>${toolfolder}/gcc-cxxcompiler.xml
     <ifrelease name="_ASAN">
       <runtime name="GCC_RUNTIME_ASAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libasan.so" type="path"/>
     <elif name="_LSAN"/>
-      <runtime name="GCC_RUNTIME_LSAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libasan.so" type="path"/>
+      <runtime name="GCC_RUNTIME_LSAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libasan.so" typ/build/mrodozov/toolfiles/conf_from_repo/BUILD/slc7_amd64_gcc900/cms/cmssw-tool-conf/46.0-cms9/log e="path"/>
     <elif name="_UBSAN"/>
       <runtime name="GCC_RUNTIME_UBSAN" value="$GCC_CXXCOMPILER_BASE/@ARCH_LIB64DIR@/libubsan.so" type="path"/>
     <elif name="_TSAN"/>
@@ -168,16 +170,17 @@ export OS_LDFLAGS="-Wl,-E -Wl,--hash-style=gnu"
 export OS_RUNTIME_LDPATH_NAME="LD_LIBRARY_PATH"
 export OS_CXXFLAGS="-Werror=overflow"
 
-
 # Then handle OS + architecture specific options (maybe we should enable more
 # aggressive optimizations for amd64 as well??)
 # For some reason on mac, some of the header do not compile if this is
 # defined.  Ignore for now.
+
 export ARCH_LIB64DIR="lib64"
 export ARCH_LD_UNIT="-r -z muldefs"
 
 # Then handle compiler specific options. E.g. enable
 # optimizations as they become available in gcc.
+
 COMPILER_CXXFLAGS=
 COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -std=c++1z -ftree-vectorize"
 COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Wstrict-overflow"
@@ -185,21 +188,8 @@ COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Werror=array-bounds -Werror=format-contai
 COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fvisibility-inlines-hidden"
 COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fno-math-errno --param vect-max-version-for-alias-checks=50"
 COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -Xassembler --compress-debug-sections"
-
-arch=`uname -m`
-if [ $arch == x86_64 ] ; then
-    #COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS $(%{cmsdist_directory}/vectorization/cmsdist_packages.py)"
-    $(echo "vect")
-fi
-if [ $arch == aarch64 ] ; then
-    COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fsigned-char -fsigned-bitfields"
-    #echo "vect"
-fi
-if [ $arch == ppc64le ] ; then                                                                                                             
-    #COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS -fsigned-char -fsigned-bitfields %{ppc64le_build_flags}"
-    $(echo "vect")                                                                                                                         
-fi
+COMPILER_CXXFLAGS="$COMPILER_CXXFLAGS $COMP_ARCH_SPECIFIC_FLAGS"
 
 export COMPILER_CXXFLAGS
 # General substitutions
-perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' ${toolfolder}/*.xml
+$(perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' ${toolfolder}/*.xml)
