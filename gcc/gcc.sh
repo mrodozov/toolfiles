@@ -1,11 +1,4 @@
-### RPM cms gcc-toolfile 16.0
-## INCLUDE compilation_flags
-# gcc has a separate spec file for the generating a 
-# toolfile because gcc.spec could be not build because of the
-# "--use-system-compiler" option.
-
-#%{expand:%(i=90; for v in %{package_vectorization}; do let i=$i+1 ; echo Source${i}: vectorization/$v; done)}
-# Determine the GCC_ROOT if "use system compiler" is used.
+#!/bin/bash
 
 toolfolder=${1}
 
@@ -24,7 +17,7 @@ fi
 
 export ARCH_FFLAGS="-cpp"
 SCRAM_CXX11_ABI=1
-dummyequal=$(echo '#include <string>' | g++ -x c++ -E -dM - | grep ' _GLIBCXX_USE_CXX11_ABI  *1' || SCRAM_CXX11_ABI=0)
+echo '#include <string>' | g++ -x c++ -E -dM - | grep ' _GLIBCXX_USE_CXX11_ABI  *1' || SCRAM_CXX11_ABI=0
 export SCRAM_CXX11_ABI
 export COMPILER_VERSION=$(gcc -dumpversion)
 export COMPILER_VERSION_MAJOR=$(echo $COMPILER_VERSION | cut -d'.' -f1)
@@ -62,10 +55,10 @@ cat << \EOF_TOOLFILE >${toolfolder}/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
 EOF_TOOLFILE
 if [[ $(arch) == x86_64 ]] ; then
-`for vv in ${PKG_VECTORIZATION} ; do
+for vv in ${PKG_VECTORIZATION} ; do
   uvv=$(echo $vv | tr [a-z-] [A-Z_] | tr '.' '_')
   echo "    <flags CXXFLAGS_TARGETS_${uvv}=\"${vv}\"/>" >> ${toolfolder}/gcc-cxxcompiler.xml
-done`
+done
 fi
 cat << \EOF_TOOLFILE >>${toolfolder}/gcc-cxxcompiler.xml
     <flags LDFLAGS="@OS_LDFLAGS@ @ARCH_LDFLAGS@ @COMPILER_LDFLAGS@"/>
