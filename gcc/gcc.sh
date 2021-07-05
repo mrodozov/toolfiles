@@ -61,7 +61,7 @@ cat << \EOF_TOOLFILE >${toolfolder}/gcc-cxxcompiler.xml
     <flags CXXFLAGS="-Werror=switch -fdiagnostics-show-option"/>
     <flags CXXFLAGS="-Wno-unused-local-typedefs -Wno-attributes -Wno-psabi"/>
 EOF_TOOLFILE
-if [ $(arch) == "x86_64" ] ; then
+if [[ $(arch) == x86_64 ]] ; then
 $(
 for vv in ${PKG_VECTORIZATION} ; do
   uvv=$(echo $vv | tr [a-z-] [A-Z_] | tr '.' '_')
