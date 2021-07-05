@@ -1,0 +1,6 @@
+<tool name="pyclang" version="12.0.0-a1b7190a72d62e08263511234ce0d6f4">
+  <client>
+    <environment name="PYCLANG_BASE" default="/build/mrodozov/toolfiles/last_cmsdist/build_toolfiles/slc7_amd64_gcc900/external/llvm/12.0.0-a1b7190a72d62e08263511234ce0d6f4"/>
+  </client>
+  <use name="python"/>
+</tool>
