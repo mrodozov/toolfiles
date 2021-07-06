@@ -81,45 +81,6 @@ cat << \EOF_TOOLFILE >>${toolfolder}/gcc-cxxcompiler.xml
   </tool>
 EOF_TOOLFILE
 
-cat << \EOF_TOOLFILE >${toolfolder}/gcc-ccompiler.xml
-  <tool name="gcc-ccompiler" version="@GCC_VERSION@" type="compiler">
-    <client>
-      <environment name="GCC_CCOMPILER_BASE" default="@GCC_ROOT@"/>
-      <environment name="CC" value="$GCC_CCOMPILER_BASE/bin/gcc@COMPILER_NAME_SUFFIX@"/>
-    </client>
-    <flags CSHAREDOBJECTFLAGS="-fPIC @OS_CSHAREDOBJECTFLAGS@ @ARCH_CSHAREDOBJECTFLAGS@ @COMPILER_CSHAREDOBJECTFLAGS@"/>
-    <flags CFLAGS="-O2 -pthread @OS_CFLAGS@ @ARCH_CFLAGS@ @COMPILER_CFLAGS@"/>
-  </tool>
-EOF_TOOLFILE
-
-cat << \EOF_TOOLFILE >${toolfolder}/gcc-f77compiler.xml
-  <tool name="gcc-f77compiler" version="@GCC_VERSION@" type="compiler">
-    <lib name="gfortran"/>
-    <lib name="m"/>
-    <client>
-      <environment name="GCC_F77COMPILER_BASE" default="@G77_ROOT@"/>
-      <environment name="FC" default="$GCC_F77COMPILER_BASE/bin/gfortran"/>
-      @ARCH_FORTRAN_LIBDIR@
-    </client>
-    <flags FFLAGS="-fno-second-underscore -Wunused -Wuninitialized -O2 @OS_FFLAGS@ @ARCH_FFLAGS@ @COMPILER_FFLAGS@"/>
-    <flags FFLAGS="-std=legacy"/>
-    <flags FOPTIMISEDFLAGS="-O2 @OS_FOPTIMISEDFLAGS@ @ARCH_FOPTIMISEDFLAGS@ @COMPILER_FOPTIMISEDFLAGS@"/>
-    <flags FSHAREDOBJECTFLAGS="-fPIC @OS_FSHAREDOBJECTFLAGS@ @ARCH_FSHAREDOBJECTFLAGS@ @COMPILER_FSHAREDOBJECTFLAGS@"/>
-  </tool>
-EOF_TOOLFILE
-
-# GCC tool file for explicity linking gcc plugin library
-cat << \EOF_TOOLFILE >${toolfolder}/gcc-plugin.xml
-  <tool name="gcc-plugin" version="@GCC_VERSION@">
-    <lib name="cc1plugin cp1plugin"/>
-    <client>
-      <environment name="GCC_PLUGIN_BASE" default="@GCC_PLUGIN_DIR@"/>
-      <environment name="INCLUDE"   default="$GCC_PLUGIN_BASE/include"/>
-      <environment name="LIBDIR"    default="$GCC_PLUGIN_BASE"/>
-    </client>
-  </tool>
-EOF_TOOLFILE
-
 export GCC_PLUGIN_DIR=$(gcc -print-file-name=plugin)
 
 # NON-empty defaults
