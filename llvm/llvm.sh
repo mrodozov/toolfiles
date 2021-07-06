@@ -5,8 +5,6 @@ toolfolder=${1}
 GCC_PATH=`which gcc` || exit 1
 GCC_ROOT=`echo $GCC_PATH | sed -e 's|/bin/gcc||'`
 G77_ROOT=$GCC_ROOT
-OS_RUNTIME_LDPATH_NAME="LD_LIBRARY_PATH"
-export OS_RUNTIME_LDPATH_NAME
 export GCC_ROOT
 export G77_ROOT
 
@@ -42,13 +40,13 @@ cat << \EOF_TOOLFILE >${toolfolder}/llvm-cxxcompiler.xml
     <flags CXXFLAGS="-Wno-error=potentially-evaluated-expression"/>
     <flags CXXFLAGS="-Wno-tautological-type-limit-compare"/>
     <flags CXXFLAGS="-fsized-deallocation"/>
-    <runtime name="@OS_RUNTIME_LDPATH_NAME@" value="$LLVM_CXXCOMPILER_BASE/lib64" type="path"/>
+    <runtime name="LD_LIBRARY_PATH" value="$LLVM_CXXCOMPILER_BASE/lib64" type="path"/>
     <runtime name="PATH" value="$LLVM_CXXCOMPILER_BASE/bin" type="path"/>
   </tool>
 EOF_TOOLFILE
 
 cat << \EOF_TOOLFILE >${toolfolder}/llvm-f77compiler.xml
-  <tool name="llvm-f77compiler" version="@LLVM_VERSION@" type="compiler">
+  <tool name="llvm-f77compiler" version="@TOOL_VERSION@" type="compiler">
     <use name="gcc-f77compiler"/>
     <client>
       <environment name="FC" default="@G77_ROOT@/bin/gfortran"/>
