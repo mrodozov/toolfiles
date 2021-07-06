@@ -9,4 +9,4 @@ export GCC_ROOT
 export G77_ROOT
 
 # General substitutions
-perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' ${toolfolder}/llvm-f77compiler.xml
+#$(perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' ${toolfolder}/llvm-f77compiler.xml)
