@@ -2,6 +2,8 @@
 
 toolfolder=${1}
 
+BOOST_ROOT=`cat ${toolfolder}/boost.xml | grep "name=\"BOOST_BASE" | cut -d'"' -f 4`
+
 case $(uname) in Darwin ) so=dylib ;; * ) so=so ;; esac
 getLibName()
 {
@@ -22,4 +24,4 @@ export BOOST_IOSTREAMS_LIB=`getLibName iostream`
 export BOOST_MPI_LIB=`getLibName mpi`
 export PYTHONV=$(echo $PYTHON_VERSION | cut -f1,2 -d.)
 
-## IMPORT scram-tools-post
+perl -p -i -e 's|\@([^@]*)\@|$ENV{$1}|g' ${toolfolder}/*.xml
